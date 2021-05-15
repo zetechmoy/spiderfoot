@@ -24,7 +24,7 @@ import cherrypy
 from cherrypy import _cperror
 from mako.lookup import TemplateLookup
 from mako.template import Template
-from secure import SecureHeaders
+#from secure import SecureHeaders
 
 from spiderfoot import SpiderFootDb
 from sflib import SpiderFoot
@@ -78,16 +78,16 @@ class SpiderFootWebUi:
             'request.error_response': self.error_page
         })
 
-        secure_headers = SecureHeaders(
-            server="server",
-            cache=False,
-            csp="default-src 'self' ; script-src 'self' 'unsafe-inline' blob: ; style-src 'self' 'unsafe-inline' ; img-src 'self' data:"
-        )
-
-        cherrypy.config.update({
-            "tools.response_headers.on": True,
-            "tools.response_headers.headers": secure_headers.cherrypy()
-        })
+#        secure_headers = SecureHeaders(
+#            server="server",
+#            cache=False,
+#            csp="default-src 'self' ; script-src 'self' 'unsafe-inline' blob: ; style-src 'self' 'unsafe-inline' ; img-src 'self' data:"
+#        )
+#
+#        cherrypy.config.update({
+#            "tools.response_headers.on": True,
+#            "tools.response_headers.headers": secure_headers.cherrypy()
+#        })
 
     def error_page(self):
         """Error page"""

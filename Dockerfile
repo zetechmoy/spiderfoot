@@ -30,25 +30,28 @@
 #   sudo docker build -t spiderfoot-test --build-arg REQUIREMENTS=requirements_test.txt .
 #   sudo docker run --rm spiderfoot-test -m pytest --flake8 .
 
-FROM alpine:3.12.4 AS build
+FROM alpine:3.9.6 AS build
 ARG REQUIREMENTS=requirements.txt
 RUN apk add --no-cache gcc git curl python3 python3-dev py3-pip swig tinyxml-dev \
  python3-dev musl-dev openssl-dev libffi-dev libxslt-dev libxml2-dev jpeg-dev \
- openjpeg-dev zlib-dev cargo rust
+ openjpeg-dev zlib-dev cargo curl
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin":$PATH
 COPY $REQUIREMENTS requirements.txt ./
 RUN ls
 RUN echo "$REQUIREMENTS"
-RUN pip3 install -U pip
+RUN pip3 install --upgrade pip
 RUN pip3 install -r "$REQUIREMENTS"
 
 
 
-FROM alpine:3.12.4
+FROM alpine:3.9.6
 WORKDIR /home/spiderfoot
 # Place database and configs outside installation directory
 ENV SPIDERFOOT_DATA /var/lib/spiderfoot
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # Run everything as one command so that only one layer is created
 RUN apk --update --no-cache add python3 musl openssl libxslt tinyxml libxml2 jpeg zlib openjpeg \
