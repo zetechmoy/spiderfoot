@@ -74,6 +74,12 @@ SpiderFoot's 200+ modules feed each other in a publisher/subscriber model to ens
 
 To install and run SpiderFoot, you need at least Python 3.6 and a number of Python libraries which you can install with `pip`. We recommend you install a packaged release since master will often have bleeding edge features and modules that aren't fully tested.
 
+#### Docker
+```
+$ docker build . -t spiderfoot
+$ docker run spiderfoot
+```
+
 #### Stable build (packaged release):
 
 ```
